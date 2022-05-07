@@ -8,27 +8,22 @@ from alipan import aligo_utils
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-login", action='store_true')
-    parser.add_argument("-upload", nargs=2, help='alipan -upload /tmp/test.mp4 music')
-    parser.add_argument("-download", nargs='+', help='alipan -download music/test.mp4 /tmp')
-    parser.add_argument("-mv", nargs=2, help='alipan -mv music/test.mp4 music/test1.mp4')
-    parser.add_argument("-rm", nargs=1, help='alipan -rm music/test.mp4')
-    parser.add_argument("-ls", nargs='?', type=str, default='')
-    args = parser.parse_args()
-    if args.login:
+    action = sys.argv[1]
+    action_arg1 = sys.argv[2] if len(sys.argv) > 2 else None
+    action_arg2 = sys.argv[3] if len(sys.argv) > 3 else None
+    if action == 'login':
         aligo_utils.login()
-    elif args.upload is not None:
-        aligo_utils.upload(args.upload[0], args.upload[1])
-    elif args.download is not None:
-        local_folder = '.' if len(args.download) == 1 else args.download[1]
-        aligo_utils.download(args.download[0], local_folder)
-    elif args.mv is not None:
-        aligo_utils.mv(args.mv[0], args.mv[1])
-    elif args.rm is not None:
-        aligo_utils.rm(args.rm[0])
-    elif args.ls != '':
-        aligo_utils.ls(args.ls)
+    elif action == 'upload':
+        aligo_utils.upload(action_arg1, action_arg2)
+    elif action == 'download':
+        local_folder = '.' if action_arg2 is None else action_arg2
+        aligo_utils.download(action_arg1, local_folder)
+    elif action == 'mv':
+        aligo_utils.mv(action_arg1, action_arg2)
+    elif action == 'rm':
+        aligo_utils.rm(action_arg1)
+    elif action == 'ls':
+        aligo_utils.ls(action_arg1)
 
 
 if __name__ == "__main__":
