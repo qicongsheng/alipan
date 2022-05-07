@@ -14,6 +14,7 @@ def login():
 
 def download(pan_file_path, local_folder):
     ali = Aligo(level=logging.INFO)
+    local_folder = '.' if local_folder is None else local_folder
     remote_file = ali.get_file_by_path(pan_file_path)
     if remote_file.type == 'file':
         download_result = ali.download_file(file=remote_file, local_folder=local_folder)
