@@ -4,6 +4,7 @@
 from aligo import Aligo
 import os
 
+
 def login():
     ali = Aligo()
     user = ali.get_user()
@@ -20,7 +21,7 @@ def download(pan_file_path, local_folder):
     print(download_result)
 
 
-def upload_file(target_file, pan_path):
+def upload(target_file, pan_path):
     ali = Aligo()
     remote_folder = ali.get_file_by_path(pan_path)
     if os.path.isfile(target_file):
@@ -38,3 +39,10 @@ def ls(pan_path):
     # 遍历文件列表
     for f in files:
         print(f.file_id, f.name, f.type)
+
+
+def mv(old_pan_file_name, new_pan_file_name):
+    ali = Aligo()
+    old_remote_pan_file = ali.get_file_by_path(old_pan_file_name)
+    return ali.rename_file(old_remote_pan_file.file_id, new_pan_file_name)
+

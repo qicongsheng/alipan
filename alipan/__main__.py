@@ -2,7 +2,9 @@
 # -*- coding:utf-8 -*-
 # Author: qicongsheng
 import argparse
-import aligo_utils
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../'))
+from alipan import aligo_utils
 
 
 def main():
@@ -10,15 +12,18 @@ def main():
     parser.add_argument("-login", action='store_true')
     parser.add_argument("-upload", nargs=2, help='alipan -upload /tmp/test.mp4 music')
     parser.add_argument("-download", nargs=2, help='alipan -download music/test.mp4 /tmp')
-    parser.add_argument("-ls", nargs='?', type=str, default='', help='alipan -download music/test.mp4 /tmp')
+    parser.add_argument("-mv", nargs=2, help='alipan -mv music/test.mp4 music/test1.mp4')
+    parser.add_argument("-ls", nargs='?', type=str, default='')
     args = parser.parse_args()
     print(args)
     if args.login:
         aligo_utils.login()
     elif args.upload is not None:
-        aligo_utils.upload_file(args.upload[0], args.upload[1])
+        aligo_utils.upload(args.upload[0], args.upload[1])
     elif args.download is not None:
         aligo_utils.download(args.download[0], args.download[1])
+    elif args.mv is not None:
+        aligo_utils.mv(args.mv[0], args.mv[1])
     elif args.ls != '':
         aligo_utils.ls(args.ls)
 
