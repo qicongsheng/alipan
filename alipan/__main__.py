@@ -15,7 +15,6 @@ def main():
     parser.add_argument("-mv", nargs=2, help='alipan -mv music/test.mp4 music/test1.mp4')
     parser.add_argument("-ls", nargs='?', type=str, default='')
     args = parser.parse_args()
-    print(args)
     if args.login:
         aligo_utils.login()
     elif args.upload is not None:
@@ -29,5 +28,4 @@ def main():
 
 
 if __name__ == "__main__":
-    print('An aliyundrive client tools.')
     main()
