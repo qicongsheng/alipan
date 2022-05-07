@@ -1,0 +1,2 @@
+cd alipan
+python3 setup.py sdist

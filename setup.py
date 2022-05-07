@@ -14,7 +14,7 @@ setup(
     url = 'https://github.com/qicongsheng/alipan',
     author = 'qicongsheng',
     author_email = 'qicongsheng@outlook.com',
-    packages = find_packages(),
+    packages = ["alipan"],
     include_package_data = True,
     platforms = 'any',
     install_requires = [
