@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # Author: qicongsheng
 from aligo import Aligo
-
+import os
 
 def login():
     ali = Aligo()
@@ -13,7 +13,6 @@ def login():
 def download(pan_file_path, local_folder):
     ali = Aligo()
     remote_file = ali.get_file_by_path(pan_file_path)
-    download_result = ''
     if remote_file.type == 'file':
         download_result = ali.download_file(file=remote_file, local_folder=local_folder)
     else:
@@ -24,7 +23,10 @@ def download(pan_file_path, local_folder):
 def upload_file(target_file, pan_path):
     ali = Aligo()
     remote_folder = ali.get_file_by_path(pan_path)
-    upload_result = ali.upload_file(target_file, remote_folder.file_id)
+    if os.path.isfile(target_file):
+        upload_result = ali.upload_file(target_file, remote_folder.file_id)
+    else:
+        upload_result = ali.upload_folder(target_file, remote_folder.file_id)
     print(upload_result)
 
 
