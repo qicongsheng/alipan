@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'alipan',
-    version = '1.2',
+    version = '1.2.1',
     keywords='alipan',
     description = 'a cli for ali yun pan',
     license = 'MIT License',
