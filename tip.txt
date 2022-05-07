@@ -1,2 +1,10 @@
+#pip地址
+https://pypi.org/project/alipan/
+
+#打包
 cd alipan
 python3 setup.py sdist
+#上传
+pip3 install twine
+twine upload alipan-0.0.1.tar.gz
+

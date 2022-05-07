@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# Author: wxnacy(wxnacy@gmail.com)
-# Description:
-
+# Author: qicongsheng
 from setuptools import setup, find_packages
 
 setup(
@@ -14,7 +12,7 @@ setup(
     url = 'https://github.com/qicongsheng/alipan',
     author = 'qicongsheng',
     author_email = 'qicongsheng@outlook.com',
-    packages = ["alipan"],
+    packages = find_packages(),
     include_package_data = True,
     platforms = 'any',
     install_requires = [
