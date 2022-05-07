@@ -7,7 +7,7 @@ setup(
     name = 'alipan',
     version = '1.2.4',
     keywords='alipan',
-    description = 'a cli for ali yun pan',
+    description = 'Commandline tools for aliyundrive',
     license = 'MIT License',
     url = 'https://github.com/qicongsheng/alipan',
     author = 'qicongsheng',
