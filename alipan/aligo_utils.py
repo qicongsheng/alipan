@@ -33,12 +33,16 @@ def upload(target_file, pan_path):
 
 def ls(pan_path):
     pan_path = '' if pan_path is None else pan_path
+    pan_path = pan_path.strip()
+    pan_path = pan_path[0:-1] if pan_path.endswith('/') or pan_path.endswith('\\') else pan_path
     ali = Aligo()
     remote_folder = ali.get_file_by_path(pan_path)
     files = ali.get_file_list(remote_folder.file_id)
     # 遍历文件列表
     for f in files:
-        print(f.file_id, f.name, f.type)
+        updated_date = f.updated_at.replace('T', ' ')[:19]
+        file_size = str(round(f.size / 1024.0 / 1024.0, 3)) + 'M' if f.type == 'file' else '-'
+        print('%s   %s   %s  %s' % ('{0:<6}'.format(f.type), '{0:<8}'.format(file_size), updated_date, pan_path + '/' + f.name))
 
 
 def mv(old_pan_file_name, new_pan_file_name):
