@@ -13,6 +13,7 @@ def main():
     parser.add_argument("-upload", nargs=2, help='alipan -upload /tmp/test.mp4 music')
     parser.add_argument("-download", nargs='+', help='alipan -download music/test.mp4 /tmp')
     parser.add_argument("-mv", nargs=2, help='alipan -mv music/test.mp4 music/test1.mp4')
+    parser.add_argument("-rm", nargs=1, help='alipan -rm music/test.mp4')
     parser.add_argument("-ls", nargs='?', type=str, default='')
     args = parser.parse_args()
     if args.login:
@@ -24,6 +25,8 @@ def main():
         aligo_utils.download(args.download[0], local_folder)
     elif args.mv is not None:
         aligo_utils.mv(args.mv[0], args.mv[1])
+    elif args.rm is not None:
+        aligo_utils.rm(args.rm[0])
     elif args.ls != '':
         aligo_utils.ls(args.ls)
 

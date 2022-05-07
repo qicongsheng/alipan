@@ -51,3 +51,9 @@ def mv(old_pan_file_name, new_pan_file_name):
     old_remote_pan_file = ali.get_file_by_path(old_pan_file_name)
     return ali.rename_file(old_remote_pan_file.file_id, new_pan_file_name)
 
+
+def rm(pan_file_name):
+    ali = Aligo(level=logging.ERROR)
+    remote_pan_file = ali.get_file_by_path(pan_file_name)
+    return ali.move_file_to_trash(remote_pan_file.file_id)
+
