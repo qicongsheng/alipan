@@ -11,7 +11,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-login", action='store_true')
     parser.add_argument("-upload", nargs=2, help='alipan -upload /tmp/test.mp4 music')
-    parser.add_argument("-download", nargs=2, help='alipan -download music/test.mp4 /tmp')
+    parser.add_argument("-download", nargs='+', help='alipan -download music/test.mp4 /tmp')
     parser.add_argument("-mv", nargs=2, help='alipan -mv music/test.mp4 music/test1.mp4')
     parser.add_argument("-ls", nargs='?', type=str, default='')
     args = parser.parse_args()
@@ -20,7 +20,8 @@ def main():
     elif args.upload is not None:
         aligo_utils.upload(args.upload[0], args.upload[1])
     elif args.download is not None:
-        aligo_utils.download(args.download[0], args.download[1])
+        local_folder = '.' if len(args.download) == 1 else args.download[1]
+        aligo_utils.download(args.download[0], local_folder)
     elif args.mv is not None:
         aligo_utils.mv(args.mv[0], args.mv[1])
     elif args.ls != '':
