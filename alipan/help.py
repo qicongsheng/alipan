@@ -2,13 +2,13 @@
 # -*- coding:utf-8 -*-
 # Author: qicongsheng
 def get_version():
-    return '1.2.23'
+    return '1.2.28'
 
 
 def print_help():
     print('''alipan %s
-Usage: alipan [ACTION] [ARGUMENT]...
 Commandline tools for aliyundrive.
+Usage: alipan [ACTION] [ARGUMENT]...
 
 ACTION
   login           login alipan
