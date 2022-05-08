@@ -81,7 +81,7 @@ def cd(pan_path):
     pan_path = pan_path if pan_path[0] == '/' else '/' + pan_path
     pan_path = pan_path if pan_path.endswith('/') else pan_path + '/'
     if not exist(pan_path):
-        print('%s not exist' % pan_path)
+        print('%s not exist' % pan_path[:-1])
         return
     ali = Aligo(level=logging.ERROR)
     remote_pan_file = ali.get_file_by_path(pan_path)
