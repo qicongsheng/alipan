@@ -54,7 +54,6 @@ def ls(pan_path):
     files = ali.get_file_list(remote_folder.file_id)
     # 遍历文件列表
     for f in files:
-        print(f.updated_at)
         updated_date = f.updated_at.replace('T', ' ')[:19]
         file_size = str(round(f.size / 1024.0 / 1024.0, 3)) + 'M' if f.type == 'file' else '-'
         file_name = f.name[1:] if f.name.startswith('/') else f.name
