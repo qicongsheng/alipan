@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # Author: qicongsheng
 def get_version():
-    return '1.2.28'
+    return '1.2.30'
 
 
 def print_help():
@@ -31,4 +31,6 @@ ACTION
                   example: alipan pwd
   exist           show file[folder] exist or not
                   example: alipan exist /remote/file/path/foo.mp4
+  help            show help tips
+                  example: alipan help
     ''' % get_version())
