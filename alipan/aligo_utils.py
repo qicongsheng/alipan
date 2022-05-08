@@ -43,11 +43,18 @@ def ls(pan_path):
     pan_path = pan_path.strip()
     pan_path = pan_path if pan_path.endswith('/') else pan_path + '/'
     pan_path = pan_path if pan_path.startswith('/') else get_work_dir() + pan_path
+    if not exist(pan_path):
+        print('%s not exist' % pan_path)
+        return
     ali = Aligo(level=logging.ERROR)
     remote_folder = ali.get_file_by_path(pan_path)
+    if remote_folder.type == 'file':
+        print('%s is not a folder' % pan_path[:-1])
+        return
     files = ali.get_file_list(remote_folder.file_id)
     # 遍历文件列表
     for f in files:
+        print(f.updated_at)
         updated_date = f.updated_at.replace('T', ' ')[:19]
         file_size = str(round(f.size / 1024.0 / 1024.0, 3)) + 'M' if f.type == 'file' else '-'
         file_name = f.name[1:] if f.name.startswith('/') else f.name
@@ -74,12 +81,46 @@ def cd(pan_path):
     pan_path = '/' if pan_path is None else pan_path.strip()
     pan_path = pan_path if pan_path[0] == '/' else '/' + pan_path
     pan_path = pan_path if pan_path.endswith('/') else pan_path + '/'
+    if not exist(pan_path):
+        print('%s not exist' % pan_path)
+        return
     ali = Aligo(level=logging.ERROR)
     remote_pan_file = ali.get_file_by_path(pan_path)
     if remote_pan_file is not None and remote_pan_file.type == 'folder':
         write_aligo_env(pan_path)
         print(pan_path)
 
+
+def exist(pan_path):
+    pan_path = '/' if pan_path is None else pan_path.strip()
+    pan_path = pan_path if pan_path[0] == '/' else '/' + pan_path
+    pan_path = pan_path[:-1] if pan_path.endswith('/') else pan_path
+    pan_pathes = pan_path.split('/')
+    pan_pathes[0] = '/'
+    ali = Aligo(level=logging.ERROR)
+    target_path = ''
+    for i, path_check in enumerate(pan_pathes):
+        if i == len(pan_pathes) - 1:
+            break
+        if i == 0:
+            target_path = target_path + path_check
+        else:
+            target_path = target_path + '/' + path_check
+        remote_target_path = ali.get_file_by_path(target_path)
+        files = ali.get_file_list(remote_target_path.file_id)
+        is_exist = False
+        for f in files:
+            if f.name == pan_pathes[i + 1]:
+                is_exist = True
+                break
+        if not is_exist:
+            return False
+    return True
+
+
+if __name__ == '__main__':
+    c = exist('/乱件')
+    print(c)
 
 def pwd():
     pwd_path = read_aligo_env()
