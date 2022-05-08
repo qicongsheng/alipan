@@ -7,7 +7,7 @@ def get_version():
 
 def print_help():
     print('''alipan %s
-Commandline tools for aliyundrive.
+Commandline tools for aliyundrive[阿里云盘].
 Usage: alipan [ACTION] [ARGUMENT]...
 
 ACTION
