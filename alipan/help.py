@@ -7,7 +7,7 @@ def get_version():
 
 def print_help():
     print('''alipan %s
-Usage: aligo [ACTION] [ARGUMENT]...
+Usage: alipan [ACTION] [ARGUMENT]...
 Commandline tools for aliyundrive.
 
 ACTION
