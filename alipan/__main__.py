@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Author: qicongsheng
-import argparse
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../'))
 from alipan import aligo_utils
@@ -22,6 +21,10 @@ def main():
         aligo_utils.mv(action_arg1, action_arg2)
     elif action == 'rm':
         aligo_utils.rm(action_arg1)
+    elif action == 'cd':
+        aligo_utils.cd(action_arg1)
+    elif action == 'pwd':
+        aligo_utils.pwd()
     elif action == 'ls':
         aligo_utils.ls(action_arg1)
 

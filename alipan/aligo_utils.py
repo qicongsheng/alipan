@@ -4,6 +4,7 @@
 from aligo import Aligo
 import os
 import logging
+from pathlib import Path
 
 
 def login():
@@ -13,6 +14,8 @@ def login():
 
 
 def download(pan_file_path, local_folder):
+    pan_file_path = pan_file_path.strip()
+    pan_file_path = pan_file_path if pan_file_path.startswith('/') else get_work_dir() + pan_file_path
     ali = Aligo(level=logging.INFO)
     remote_file = ali.get_file_by_path(pan_file_path)
     if remote_file.type == 'file':
@@ -23,6 +26,9 @@ def download(pan_file_path, local_folder):
 
 
 def upload(target_file, pan_path):
+    pan_path = pan_path if pan_path is not None else get_work_dir()
+    pan_path = pan_path.strip()
+    pan_path = pan_path if pan_path.startswith('/') else get_work_dir() + pan_path
     ali = Aligo(level=logging.INFO)
     remote_folder = ali.get_file_by_path(pan_path)
     if os.path.isfile(target_file):
@@ -33,9 +39,10 @@ def upload(target_file, pan_path):
 
 
 def ls(pan_path):
-    pan_path = '' if pan_path is None else pan_path
+    pan_path = get_work_dir() if pan_path is None else pan_path
     pan_path = pan_path.strip()
-    pan_path = pan_path[0:-1] if pan_path.endswith('/') or pan_path.endswith('\\') else pan_path
+    pan_path = pan_path if pan_path.endswith('/') else pan_path + '/'
+    pan_path = pan_path if pan_path.startswith('/') else get_work_dir() + pan_path
     ali = Aligo(level=logging.ERROR)
     remote_folder = ali.get_file_by_path(pan_path)
     files = ali.get_file_list(remote_folder.file_id)
@@ -43,17 +50,57 @@ def ls(pan_path):
     for f in files:
         updated_date = f.updated_at.replace('T', ' ')[:19]
         file_size = str(round(f.size / 1024.0 / 1024.0, 3)) + 'M' if f.type == 'file' else '-'
-        print('%s   %s   %s  %s' % ('{0:<6}'.format(f.type), '{0:<8}'.format(file_size), updated_date, pan_path + '/' + f.name))
+        file_name = f.name[1:] if f.name.startswith('/') else f.name
+        print('%s   %s   %s  %s' % ('{0:<6}'.format(f.type), '{0:<8}'.format(file_size), updated_date, pan_path + file_name))
 
 
 def mv(old_pan_file_name, new_pan_file_name):
+    old_pan_file_name = old_pan_file_name.strip()
+    old_pan_file_name = old_pan_file_name if old_pan_file_name.startswith('/') else get_work_dir() + old_pan_file_name
     ali = Aligo(level=logging.ERROR)
     old_remote_pan_file = ali.get_file_by_path(old_pan_file_name)
     return ali.rename_file(old_remote_pan_file.file_id, new_pan_file_name)
 
 
 def rm(pan_file_name):
+    pan_file_name = pan_file_name.strip()
+    pan_file_name = pan_file_name if pan_file_name.startswith('/') else get_work_dir() + pan_file_name
     ali = Aligo(level=logging.ERROR)
     remote_pan_file = ali.get_file_by_path(pan_file_name)
     return ali.move_file_to_trash(remote_pan_file.file_id)
+
+
+def cd(pan_path):
+    pan_path = '/' if pan_path is None else pan_path.strip()
+    pan_path = pan_path if pan_path[0] == '/' else '/' + pan_path
+    pan_path = pan_path if pan_path.endswith('/') else pan_path + '/'
+    ali = Aligo(level=logging.ERROR)
+    remote_pan_file = ali.get_file_by_path(pan_path)
+    if remote_pan_file is not None and remote_pan_file.type == 'folder':
+        write_aligo_env(pan_path)
+        print(pan_path)
+
+
+def pwd():
+    pwd_path = read_aligo_env()
+    pwd_path = '/' if pwd_path is None else pwd_path
+    print(pwd_path)
+    return pwd_path
+
+
+def read_aligo_env():
+    aligo_tmp_file = Path.home().joinpath('.aligo').joinpath('aligo_tmp.json')
+    with open(aligo_tmp_file, 'r') as file_object:
+        return file_object.read()
+
+
+def write_aligo_env(content):
+    aligo_tmp_file = Path.home().joinpath('.aligo').joinpath('aligo_tmp.json')
+    with open(aligo_tmp_file, 'w+') as file_object:
+        file_object.write(content)
+
+
+def get_work_dir():
+    tmp_content = read_aligo_env()
+    return tmp_content
 
