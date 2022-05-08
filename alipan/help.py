@@ -36,6 +36,8 @@ ACTION
                   example: alipan pwd
   exist           show file[folder] exist or not
                   example: alipan exist /remote/file/path/foo.mp4
+  version         show version
+                  example: alipan version
   help            show help tips
                   example: alipan help
     ''' % get_version())
