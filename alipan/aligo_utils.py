@@ -87,7 +87,7 @@ def rm(pan_file_name):
 
 def cd(pan_path):
     pan_path = '/' if pan_path is None else pan_path.strip()
-    pan_path = pan_path if pan_path[0] == '/' else '/' + pan_path
+    pan_path = pan_path if pan_path.startswith('/') else get_work_dir() + pan_path
     pan_path = pan_path if pan_path.endswith('/') else pan_path + '/'
     if not exist(pan_path):
         print('%s not exist' % pan_path[:-1])

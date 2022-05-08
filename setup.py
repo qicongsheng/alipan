@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'alipan',
-    version = '1.2.15',
+    version = '1.2.16',
     keywords='alipan',
     description = 'Commandline tools for aliyundrive',
     license = 'MIT License',
