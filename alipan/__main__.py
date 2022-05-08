@@ -3,7 +3,7 @@
 # Author: qicongsheng
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../'))
-from alipan import aligo_utils
+from alipan import aligo_utils, help
 
 
 def main():
@@ -33,6 +33,7 @@ def main():
         aligo_utils.ls(action_arg1)
     else:
         print('unsupported command: %s' % action)
+        help.print_help()
 
 
 if __name__ == "__main__":
