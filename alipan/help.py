@@ -2,7 +2,12 @@
 # -*- coding:utf-8 -*-
 # Author: qicongsheng
 def get_version():
-    return '1.2.30'
+    return '1.2.32'
+
+
+def print_version():
+    print('''alipan %s
+Commandline tools for aliyundrive[阿里云盘].''' % get_version())
 
 
 def print_help():
