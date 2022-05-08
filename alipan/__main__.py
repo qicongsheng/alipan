@@ -29,6 +29,8 @@ def main():
         aligo_utils.pwd()
     elif action == 'exist':
         aligo_utils.exist(action_arg1)
+    elif action == 'help':
+        help.print_help()
     elif action == 'ls':
         aligo_utils.ls(action_arg1)
     else:

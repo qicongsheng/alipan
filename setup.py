@@ -2,10 +2,11 @@
 # -*- coding:utf-8 -*-
 # Author: qicongsheng
 from setuptools import setup, find_packages
+from alipan import help
 
 setup(
     name = 'alipan',
-    version = '1.2.16',
+    version = help.get_version(),
     keywords='alipan',
     description = 'Commandline tools for aliyundrive',
     license = 'MIT License',

@@ -2,8 +2,11 @@
 # -*- coding:utf-8 -*-
 # Author: qicongsheng
 
+def get_version():
+    return '1.2.18'
+
 def print_help():
-    print('''
+    print('''alipan %s
 Usage: aligo [ACTION] [ARGUMENT]...
 Commandline tools for aliyundrive.
 
@@ -28,4 +31,4 @@ ACTION
                   example: alipan pwd
   exist           show file[folder] exist or not
                   example: alipan exist /remote/file/path/foo.mp4
-    ''')
+    ''' % get_version())
