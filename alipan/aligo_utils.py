@@ -10,7 +10,16 @@ from pathlib import Path
 def login():
     ali = Aligo(level=logging.INFO)
     user = ali.get_user()
+    cd('/')
     print('login success: ', user.nick_name)
+
+
+def logout():
+    aligo_tmp_file = Path.home().joinpath('.aligo').joinpath('aligo_tmp.json')
+    aligo_config_file = Path.home().joinpath('.aligo').joinpath('aligo.json')
+    os.remove(aligo_tmp_file)
+    os.remove(aligo_config_file)
+    print('logout success!')
 
 
 def download(pan_file_path, local_folder):
@@ -44,7 +53,7 @@ def ls(pan_path):
     pan_path = pan_path if pan_path.endswith('/') else pan_path + '/'
     pan_path = pan_path if pan_path.startswith('/') else get_work_dir() + pan_path
     if not exist(pan_path):
-        print('%s not exist' % pan_path)
+        print('%s not exist' % pan_path[:-1])
         return
     ali = Aligo(level=logging.ERROR)
     remote_folder = ali.get_file_by_path(pan_path)
@@ -87,7 +96,7 @@ def cd(pan_path):
     remote_pan_file = ali.get_file_by_path(pan_path)
     if remote_pan_file is not None and remote_pan_file.type == 'folder':
         write_aligo_env(pan_path)
-        print(pan_path)
+        print(pan_path[:-1])
 
 
 def exist(pan_path):
@@ -117,21 +126,20 @@ def exist(pan_path):
     return True
 
 
-if __name__ == '__main__':
-    c = exist('/乱件')
-    print(c)
-
 def pwd():
     pwd_path = read_aligo_env()
     pwd_path = '/' if pwd_path is None else pwd_path
-    print(pwd_path)
-    return pwd_path
+    print(pwd_path[:-1])
 
 
 def read_aligo_env():
     aligo_tmp_file = Path.home().joinpath('.aligo').joinpath('aligo_tmp.json')
-    with open(aligo_tmp_file, 'r') as file_object:
-        return file_object.read()
+    try:
+        with open(aligo_tmp_file, 'r') as file_object:
+            return file_object.read()
+    except:
+        login()
+        return read_aligo_env()
 
 
 def write_aligo_env(content):

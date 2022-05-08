@@ -12,6 +12,8 @@ def main():
     action_arg2 = sys.argv[3] if len(sys.argv) > 3 else None
     if action == 'login':
         aligo_utils.login()
+    elif action == 'logout':
+        aligo_utils.logout()
     elif action == 'upload':
         aligo_utils.upload(action_arg1, action_arg2)
     elif action == 'download':
@@ -29,6 +31,8 @@ def main():
         aligo_utils.exist(action_arg1)
     elif action == 'ls':
         aligo_utils.ls(action_arg1)
+    else:
+        print('unsupported command: %s' % action)
 
 
 if __name__ == "__main__":
