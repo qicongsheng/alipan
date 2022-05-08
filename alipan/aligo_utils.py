@@ -99,7 +99,7 @@ def cd(pan_path):
         return
     if remote_pan_file is not None and remote_pan_file.type == 'folder':
         write_aligo_env(pan_path)
-        print(pan_path[:-1])
+        print(pan_path[:-1] if pan_path != '/' else '/')
 
 
 def exist(pan_path):
@@ -132,7 +132,7 @@ def exist(pan_path):
 def pwd():
     pwd_path = read_aligo_env()
     pwd_path = '/' if pwd_path is None else pwd_path
-    print(pwd_path[:-1])
+    print(pwd_path[:-1] if pwd_path != '/' else '/')
 
 
 def read_aligo_env():
