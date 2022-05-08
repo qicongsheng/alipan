@@ -94,6 +94,9 @@ def cd(pan_path):
         return
     ali = Aligo(level=logging.ERROR)
     remote_pan_file = ali.get_file_by_path(pan_path)
+    if remote_pan_file.type == 'file':
+        print('%s is not a folder' % pan_path[:-1])
+        return
     if remote_pan_file is not None and remote_pan_file.type == 'folder':
         write_aligo_env(pan_path)
         print(pan_path[:-1])

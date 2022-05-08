@@ -3,7 +3,7 @@
 # Author: qicongsheng
 
 def get_version():
-    return '1.2.18'
+    return '1.2.19'
 
 def print_help():
     print('''alipan %s
