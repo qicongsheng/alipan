@@ -10,7 +10,7 @@ from pathlib import Path
 def login():
     ali = Aligo(level=logging.INFO)
     user = ali.get_user()
-    cd('/')
+    write_aligo_env('/')
     print('login success: ', user.nick_name)
 
 
