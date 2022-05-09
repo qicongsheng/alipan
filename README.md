@@ -1,5 +1,5 @@
 # alipan
-阿里云盘cli工具
+阿里云盘cli工具（基于aligo）
 
 pip3 install alipan --upgrade
 <pre>
