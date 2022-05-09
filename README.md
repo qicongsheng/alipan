@@ -3,7 +3,7 @@
 
 pip3 install alipan --upgrade
 <pre>
-alipan 1.2.36
+alipan 1.2.42
 
 Commandline tools for aliyundrive[阿里云盘].
 Usage: alipan [ACTION] [ARGUMENT]...
