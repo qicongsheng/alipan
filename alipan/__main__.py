@@ -7,7 +7,7 @@ from alipan import aligo_utils, help
 
 
 def main():
-    action = sys.argv[1]
+    action = sys.argv[1] if len(sys.argv) > 1 else 'help'
     action_arg1 = sys.argv[2] if len(sys.argv) > 2 else None
     action_arg2 = sys.argv[3] if len(sys.argv) > 3 else None
     if action == 'login':
