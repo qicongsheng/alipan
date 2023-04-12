@@ -22,24 +22,25 @@ def logout():
     print('logout success!')
 
 
-def download(pan_file_path, local_folder):
+def download(pan_file_path, local_folder='./'):
     pan_file_path = pan_file_path.strip()
     pan_file_path = pan_file_path if pan_file_path.startswith('/') else get_work_dir() + pan_file_path
     ali = Aligo(level=logging.INFO)
-    remote_file = ali.get_file_by_path(pan_file_path)
-    if remote_file.type == 'file':
-        download_result = ali.download_file(file=remote_file, local_folder=local_folder)
-    else:
+    remote_file = ali.get_folder_by_path(pan_file_path)
+    if remote_file is not None and remote_file.type != 'file':
         download_result = ali.download_folder(remote_file.file_id, local_folder=local_folder)
+    else:
+        remote_file = ali.get_file_by_path(pan_file_path)
+        download_result = ali.download_file(file=remote_file, local_folder=local_folder)
     print(download_result)
 
 
-def upload(target_file, pan_path):
+def upload(target_file, pan_path=None):
     pan_path = pan_path if pan_path is not None else get_work_dir()
     pan_path = pan_path.strip()
     pan_path = pan_path if pan_path.startswith('/') else get_work_dir() + pan_path
     ali = Aligo(level=logging.INFO)
-    remote_folder = ali.get_file_by_path(pan_path)
+    remote_folder = ali.get_folder_by_path(pan_path)
     if os.path.isfile(target_file):
         upload_result = ali.upload_file(target_file, remote_folder.file_id)
     else:
@@ -47,7 +48,7 @@ def upload(target_file, pan_path):
     print(upload_result)
 
 
-def ls(pan_path):
+def ls(pan_path=None):
     pan_path = get_work_dir() if pan_path is None else pan_path
     pan_path = pan_path.strip()
     pan_path = pan_path if pan_path.endswith('/') else pan_path + '/'
@@ -56,8 +57,8 @@ def ls(pan_path):
         print('%s not exist' % pan_path[:-1])
         return
     ali = Aligo(level=logging.ERROR)
-    remote_folder = ali.get_file_by_path(pan_path)
-    if remote_folder.type == 'file':
+    remote_folder = ali.get_folder_by_path(pan_path)
+    if remote_folder is None or remote_folder.type == 'file':
         print('%s is not a folder' % pan_path[:-1])
         return
     files = ali.get_file_list(remote_folder.file_id)
@@ -74,7 +75,11 @@ def mv(old_pan_file_name, new_pan_file_name):
     old_pan_file_name = old_pan_file_name if old_pan_file_name.startswith('/') else get_work_dir() + old_pan_file_name
     ali = Aligo(level=logging.ERROR)
     old_remote_pan_file = ali.get_file_by_path(old_pan_file_name)
-    return ali.rename_file(old_remote_pan_file.file_id, new_pan_file_name)
+    if old_remote_pan_file is None:
+        print('%s not exist' % old_pan_file_name)
+        return
+    mv_result = ali.rename_file(old_remote_pan_file.file_id, new_pan_file_name)
+    return mv_result
 
 
 def rm(pan_file_name):
@@ -82,6 +87,9 @@ def rm(pan_file_name):
     pan_file_name = pan_file_name if pan_file_name.startswith('/') else get_work_dir() + pan_file_name
     ali = Aligo(level=logging.ERROR)
     remote_pan_file = ali.get_file_by_path(pan_file_name)
+    if remote_pan_file is None:
+        print('%s not exist' % remote_pan_file)
+        return
     return ali.move_file_to_trash(remote_pan_file.file_id)
 
 
@@ -93,8 +101,8 @@ def cd(pan_path):
         print('%s not exist' % pan_path[:-1])
         return
     ali = Aligo(level=logging.ERROR)
-    remote_pan_file = ali.get_file_by_path(pan_path)
-    if remote_pan_file.type == 'file':
+    remote_pan_file = ali.get_folder_by_path(pan_path)
+    if remote_pan_file is None or remote_pan_file.type == 'file':
         print('%s is not a folder' % pan_path[:-1])
         return
     if remote_pan_file is not None and remote_pan_file.type == 'folder':
@@ -117,7 +125,7 @@ def exist(pan_path):
             target_path = target_path + path_check
         else:
             target_path = target_path + '/' + path_check
-        remote_target_path = ali.get_file_by_path(target_path)
+        remote_target_path = ali.get_folder_by_path(target_path)
         files = ali.get_file_list(remote_target_path.file_id)
         is_exist = False
         for f in files:
@@ -132,7 +140,9 @@ def exist(pan_path):
 def pwd():
     pwd_path = read_aligo_env()
     pwd_path = '/' if pwd_path is None else pwd_path
-    print(pwd_path[:-1] if pwd_path != '/' else '/')
+    pwd_result = pwd_path[:-1] if pwd_path != '/' else '/'
+    print(pwd_result)
+    return pwd_result
 
 
 def read_aligo_env():
