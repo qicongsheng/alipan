@@ -17,7 +17,7 @@ setup(
     include_package_data=True,
     platforms='any',
     install_requires=[
-        'aligo==3.5.1'
+        'aligo==5.5.26'
     ],
     entry_points={
         'console_scripts': [
